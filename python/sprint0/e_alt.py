@@ -1,11 +1,19 @@
 from typing import List, Tuple, Optional
 
 
-def two_sum(arr: List[int], target_sum: int) -> Optional[Tuple[int, int]]:
-    for i in range(0, len(arr)):
-        for j in range(i+1, len(arr)):
-            if arr[i] + arr[j] == target_sum:
-                return arr[i], arr[j]
+def twosum_with_sort(arr, target_sum):
+    arr.sort()
+
+    left = 0
+    right = len(arr) - 1
+    while left < right:
+        current_sum = arr[left] + arr[right]
+        if current_sum == target_sum:
+            return arr[left], arr[right]
+        if current_sum < target_sum:
+            left += 1
+        else:
+            right -= 1
     return None
 
 
@@ -24,4 +32,4 @@ def print_result(result: Optional[Tuple[int, int]]) -> None:
 
 
 arr, target_sum = read_input()
-print_result(two_sum(arr, target_sum))
+print_result(twosum_with_sort(arr, target_sum))
