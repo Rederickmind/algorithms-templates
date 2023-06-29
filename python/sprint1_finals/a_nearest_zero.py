@@ -1,3 +1,5 @@
+# Successful ID in Yandex.Contest - 88682993
+
 MAX_LENGTH = 10 ** 6
 MAX_NUM = 10 ** 9
 
