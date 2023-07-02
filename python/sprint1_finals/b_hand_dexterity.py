@@ -1,29 +1,33 @@
-# Successful ID in Yandex.Contest - 88700288
+# Successful ID in Yandex.Contest - 88733622
+
+from collections import Counter
+
 
 def read_input():
     k = int(input())
-    keyboard = ''
     # Считываем 4 строки матрицы в одну
-    for i in range(4):
-        keyboard = keyboard + ''.join(input()).replace('.', '')
+    keyboard = ''.join(input() for _ in range(4)).replace('.', '')
+    # Создаём словарь количества вхождений числа в клавиатуру для раунда
+    key_counter = dict(Counter(keyboard))
 
-    # Переводим строку в список, чтобы удобнее было считать вхождения
-    numbers = []
-    for symbol in keyboard:
-        numbers.append(int(symbol))
-    return numbers, k
+    return key_counter, k
 
 
-def score_count(numbers, k):
+def score_count(key_counter, k):
     score = 0
-    # В цикле считаем количество кнопок соответствующих раунду
+    # В цикле проверяем количество кнопок соответствующих раунду
     # и могут ли их нажать два игрока
     for i in range(1, 10):
-        count = numbers.count(i)
-        if 0 < count <= 2*k:
-            score += 1
+        if str(i) in key_counter.keys():
+            if 0 < key_counter[str(i)] <= 2*k:
+                score += 1
     return score
 
 
-numbers, k = read_input()
-print(score_count(numbers, k))
+def main():
+    key_counter, k = read_input()
+    print(score_count(key_counter, k))
+
+
+if __name__ == '__main__':
+    main()

@@ -1,4 +1,4 @@
-# Successful ID in Yandex.Contest - 88682993
+# Successful ID in Yandex.Contest - 88733464
 
 MAX_LENGTH = 10 ** 6
 MAX_NUM = 10 ** 9
@@ -41,6 +41,11 @@ def nearest_zero(length, houses):
     return result
 
 
-length = int(input())
-houses = [int(house) for house in input().strip().split()]
-print(" ".join(map(str, nearest_zero(length, houses))))
+def main():
+    length = int(input())
+    houses = [int(house) for house in input().strip().split()]
+    print(*nearest_zero(length, houses))
+
+
+if __name__ == '__main__':
+    main()
