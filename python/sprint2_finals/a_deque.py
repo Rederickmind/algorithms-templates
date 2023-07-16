@@ -1,3 +1,5 @@
+# Successful ID in Yandex.Contest - 89086389
+
 class NoItemsException(Exception):
     def __init__(self):
         pass
