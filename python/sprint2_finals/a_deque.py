@@ -22,10 +22,7 @@ class Deque:
             raise MaxItemsException
         self.head = self.get_index('push_front')
         self.deque[self.head] = value
-        # print(f'Добавили в начало элемент {self.deque[self.head]}')
         self.size += 1
-        # print(f'Размер очереди теперь {self.size}')
-        # print(f'Deque = {self.__str__()}')
 
     def push_back(self, value):
         '''Добавление элемента в конец очереди.'''
@@ -33,37 +30,23 @@ class Deque:
             raise MaxItemsException
         self.tail = self.get_index('push_back')
         self.deque[self.tail] = value
-        # print(f'Добавили в конец элемент {self.deque[self.tail]}')
         self.size += 1
-        # print(f'Размер очереди теперь {self.size}')
-        # print(f'Deque = {self.__str__()}')
 
     def pop_front(self):
         '''Удаление элемента из начала очереди и его вывод.'''
-        # print(f'размер очереди {self.size}')
         if self.is_empty():
             raise NoItemsException
         value = self.deque[self.head]
         self.head = self.get_index('pop_front')
-        # print(f'Возвращаемый элемент {value}')
-        # print(f'Deque = {self.__str__()}')
-        # self.deque[self.head] = None
-        # print(f'Deque = {self.__str__()}')
         self.size -= 1
         return value
 
     def pop_back(self):
         '''Удаление элемента из конца очереди и его вывод.'''
-        # print(f'размер очереди {self.size}')
         if self.is_empty():
             raise NoItemsException
         value = self.deque[self.tail]
-        # self.tail = (self.tail - 1) % self.max_length
         self.tail = self.get_index('pop_back')
-        # print(f'Возвращаемый элемент {value}')
-        # print(f'Deque = {self.__str__()}')
-        # self.deque[self.tail] = None
-        # print(f'Deque = {self.__str__()}')
         self.size -= 1
         return value
 
@@ -92,7 +75,7 @@ class Deque:
 
     def is_empty(self):
         '''Проверка не пустая ли очередь.'''
-        return (self.size == 0)
+        return self.size == 0
 
     def is_full(self):
         '''Проверка не полная ли очередь.'''
@@ -109,7 +92,7 @@ def main():
 
     for i in range(command_amount):
         try:
-            command = input().split(' ')
+            command = input().split()
             if len(command) == 1:
                 print(getattr(deque, command[0])())
             else:
