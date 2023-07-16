@@ -1,3 +1,13 @@
+class NoItemsException(Exception):
+    def __init__(self):
+        pass
+
+
+class MaxItemsException(Exception):
+    def __init__(self):
+        pass
+
+
 class Deque:
     def __init__(self, max_length):
         self.deque = [None] * max_length
@@ -9,50 +19,72 @@ class Deque:
     def push_front(self, value):
         '''Добавление элемента в начало очереди.'''
         if self.is_full():
-            print('error')
+            raise MaxItemsException
+        self.head = self.get_index('push_front')
         self.deque[self.head] = value
         # print(f'Добавили в начало элемент {self.deque[self.head]}')
         self.size += 1
         # print(f'Размер очереди теперь {self.size}')
-        self.head = self.change_index(self.head, -1)
+        # print(f'Deque = {self.__str__()}')
 
     def push_back(self, value):
         '''Добавление элемента в конец очереди.'''
         if self.is_full():
-            print('error')
+            raise MaxItemsException
+        self.tail = self.get_index('push_back')
         self.deque[self.tail] = value
         # print(f'Добавили в конец элемент {self.deque[self.tail]}')
         self.size += 1
         # print(f'Размер очереди теперь {self.size}')
-        self.tail = self.change_index(self.tail, 1)
+        # print(f'Deque = {self.__str__()}')
 
     def pop_front(self):
         '''Удаление элемента из начала очереди и его вывод.'''
+        # print(f'размер очереди {self.size}')
         if self.is_empty():
-            return 'error'
-        else:
-            value = self.deque[self.head]
-            self.deque[self.head] = None
-            self.head = self.change_index(self.head, 1)
-            self.size -= 1
-            return value
+            raise NoItemsException
+        value = self.deque[self.head]
+        self.head = self.get_index('pop_front')
+        # print(f'Возвращаемый элемент {value}')
+        # print(f'Deque = {self.__str__()}')
+        # self.deque[self.head] = None
+        # print(f'Deque = {self.__str__()}')
+        self.size -= 1
+        return value
 
     def pop_back(self):
         '''Удаление элемента из конца очереди и его вывод.'''
         # print(f'размер очереди {self.size}')
         if self.is_empty():
-            return 'error'
-        else:
-            value = self.deque[self.tail]
-            # print(f'Возвращаемый элемент {value}')
-            self.deque[self.tail] = None
-            self.tail = self.change_index(self.tail, -1)
-            self.size -= 1
-            return value
+            raise NoItemsException
+        value = self.deque[self.tail]
+        # self.tail = (self.tail - 1) % self.max_length
+        self.tail = self.get_index('pop_back')
+        # print(f'Возвращаемый элемент {value}')
+        # print(f'Deque = {self.__str__()}')
+        # self.deque[self.tail] = None
+        # print(f'Deque = {self.__str__()}')
+        self.size -= 1
+        return value
 
-    def change_index(self, index, new_index):
+    def get_index(self, method):
         """Получение нового указателя, после добавления/удаления элемента."""
-        return (index + new_index) % self.max_length
+        if method == 'push_front':
+            if self.is_empty():
+                self.head = 0
+                self.tail = 0
+                return 0
+            return (self.head - 1) % self.max_length
+        if method == 'push_back':
+            if self.is_empty():
+                self.head = 0
+                self.tail = 0
+                return 0
+            return (self.tail + 1) % self.max_length
+        if method == 'pop_front':
+            return (self.head + 1) % self.max_length
+        if method == 'pop_back':
+            return (self.tail - 1) % self.max_length
 
     def size(self):
         '''Возвращение размера (длины) очереди.'''
@@ -64,34 +96,29 @@ class Deque:
 
     def is_full(self):
         '''Проверка не полная ли очередь.'''
-        return self.size >= self.max_length
+        return self.size == self.max_length
+
+    def __str__(self):
+        return ' '.join(map(str, self.deque))
 
 
-def read_input():
-    '''
-    Чтение данных.
-    Возвращает максимальную длину очереди и команды работы с ней.
-    '''
+def main():
     command_amount = int(input())
     max_length = int(input())
-    commands = [input().strip().split() for i in range(command_amount)]
-
-    return max_length, commands
-
-
-def main(max_length, commands):
     deque = Deque(max_length)
-    for command in commands:
-        if command[0] == 'push_front':
-            deque.push_front(int(command[1]))
-        if command[0] == 'push_back':
-            deque.push_back(int(command[1]))
-        if command[0] == 'pop_front':
-            print(deque.pop_front())
-        if command[0] == 'pop_back':
-            print(deque.pop_back())
+
+    for i in range(command_amount):
+        try:
+            command = input().split(' ')
+            if len(command) == 1:
+                print(getattr(deque, command[0])())
+            else:
+                getattr(deque, command[0])(command[1])
+        except NoItemsException:
+            print('error')
+        except MaxItemsException:
+            print('error')
 
 
 if __name__ == '__main__':
-    max_length, commands = read_input()
-    main(max_length, commands)
+    main()
