@@ -18,22 +18,22 @@ def broken_search(numbers, target, left=0, right=None):
     return broken_search(numbers, target, left, middle - 1)
 
 
-def read_input():
-    array_length = int(input())
-    target = int(input())
-    numbers = [int(num) for num in input().split()]
-    return numbers, target
+# def read_input():
+#     array_length = int(input())
+#     target = int(input())
+#     numbers = [int(num) for num in input().split()]
+#     return numbers, target
 
 
-def main():
-    numbers, target = read_input()
-    print(broken_search(numbers, target))
+# def main():
+#     numbers, target = read_input()
+#     print(broken_search(numbers, target))
 
 
-def test():
-    arr = [19, 21, 100, 101, 1, 4, 5, 7, 12]
-    assert broken_search(arr, 5) == 6
+# def test():
+#     arr = [19, 21, 100, 101, 1, 4, 5, 7, 12]
+#     assert broken_search(arr, 5) == 6
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

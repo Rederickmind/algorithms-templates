@@ -1,4 +1,4 @@
-# Successful ID in Yandex.Contest - 89397058
+# Successful ID in Yandex.Contest - 89415797
 
 class Player:
 
@@ -8,22 +8,14 @@ class Player:
         self.penalty = penalty
 
     def __gt__(self, other):
-        if self.tasks_solved != other.tasks_solved:
-            return self.tasks_solved < other.tasks_solved
-
-        if self.penalty != other.penalty:
-            return self.penalty > other.penalty
-
-        return self.username > other.username
+        self_tuple = (-self.tasks_solved, self.penalty, self.username)
+        other_tuple = (-other.tasks_solved, other.penalty, other.username)
+        return self_tuple > other_tuple
 
     def __lt__(self, other):
-        if self.tasks_solved != other.tasks_solved:
-            return self.tasks_solved > other.tasks_solved
-
-        if self.penalty != other.penalty:
-            return self.penalty < other.penalty
-
-        return self.username < other.username
+        self_tuple = (-self.tasks_solved, self.penalty, self.username)
+        other_tuple = (-other.tasks_solved, other.penalty, other.username)
+        return self_tuple < other_tuple
 
     def __ge__(self, other):
         return self.__gt__(other) or self == other
@@ -35,15 +27,16 @@ class Player:
         return self.username
 
 
+# Разбиение Ломуто.
 def partition(array, start, end):
-    i = start - 1
+    index = start - 1
     pivot = array[end]
     for j in range(start, end):
         if array[j] <= pivot:
-            i += 1
-            array[i], array[j] = array[j], array[i]
-    array[i + 1], array[end] = array[end], array[i + 1]
-    return i + 1
+            index += 1
+            array[index], array[j] = array[j], array[index]
+    array[index + 1], array[end] = array[end], array[index + 1]
+    return index + 1
 
 
 def quick_sort_inplace(array, start=0, end=None):
